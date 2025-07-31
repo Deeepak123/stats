@@ -58,6 +58,8 @@ export class AppComponent {
   onLineClick() {
     console.log('Alt button clicked');
 
+    const matchLog: { side: string, gap: number }[] = [];
+
     const data = this.data.slice().reverse(); // Latest to oldest
     const allGaps: number[] = [];
     const leftGaps: number[] = [];
@@ -109,6 +111,8 @@ export class AppComponent {
         const matchedSide = isLeft ? 'LEFT' : 'RIGHT';
         console.log(`${next} is ${matchedSide} neighbour of ${current} -> ${current}'s neighbours [${left}, ${right}], gap = ${sharedGapCounter}`);
         allGaps.push(sharedGapCounter);
+        matchLog.push({ side: matchedSide, gap: sharedGapCounter });
+
 
         if (sharedGapCounter <= 18) {
           const cost = sharedGapCounter * 2;
@@ -250,11 +254,67 @@ export class AppComponent {
     console.log(`Average Rounds Before Switch: ${avgSwitchGap}`);
     console.log(`Longest Failure Gap: ${Math.max(...directionalFailures, 0)}`);
     console.log(`Safe to Play: ${isDirectionalSafe} (${Math.round(successRatio * 100)}%)`);
+
+
+
+    let counter = 0;
+    let maxCounter = 0;
+    let minCounter = 0;
+    let previousSide = matchLog[0].side;
+
+    console.log(`Starting from side: ${previousSide}`);
+    console.log('--------------------------------------------------');
+
+    for (let i = 1; i < matchLog.length; i++) {
+      const current = matchLog[i];
+      const currentSide = current.side;
+      const actualGap = current.gap;
+      const cappedGap = actualGap > 18 ? 18 : actualGap;
+
+      if (currentSide !== previousSide) {
+        // Switch in side
+        counter += cappedGap;
+        console.log(
+          `[${i}] Switch ${previousSide} ➝ ${currentSide}, gap = ${actualGap} ➝ +${cappedGap}, counter = ${counter}`
+        );
+      } else {
+        // Same side
+        if (actualGap > 18) {
+          counter += 18;
+          console.log(
+            `[${i}] Same ${currentSide}, gap > 18 ➝ +18, counter = ${counter}`
+          );
+        } else {
+          counter += actualGap;
+          console.log(
+            `[${i}] Same ${currentSide}, gap = ${actualGap} ➝ +${actualGap}, then -36`
+          );
+          counter -= 36;
+          console.log(
+            `     ➝ counter after -36 = ${counter}`
+          );
+        }
+      }
+
+      // Track min and max counter value
+      if (counter > maxCounter) maxCounter = counter;
+      if (counter < minCounter) minCounter = counter;
+
+      previousSide = currentSide;
+    }
+
+    console.log('--------------------------------------------------');
+    console.log(`Max loose: ${maxCounter}`);
+    console.log(`Max win: ${minCounter}`);
+    console.log('Beat till end final result:', counter);
+    console.log("-result = very safe, + result (<50) then still can win in between")
+
   }
 
 
   onAltClick() {
     console.log('Alt button clicked');
+    const matchLog: { side: string, gap: number }[] = [];
 
     const data = this.data.slice().reverse(); // Latest to oldest
     const allGaps: number[] = [];
@@ -308,6 +368,7 @@ export class AppComponent {
         const matchedSide = isLeft ? 'LEFT' : 'RIGHT';
         console.log(`${next} is ${matchedSide} neighbour of ${current} -> [${left}, ${right}], gap = ${sharedGapCounter}`);
         allGaps.push(sharedGapCounter);
+        matchLog.push({ side: matchedSide, gap: sharedGapCounter });
 
         if (sharedGapCounter <= 18) {
           const cost = sharedGapCounter * 2;
@@ -451,6 +512,59 @@ export class AppComponent {
     console.log(`Average Rounds Before Switch: ${avgSwitchGap}`);
     console.log(`Longest Failure Gap: ${Math.max(...directionalFailures, 0)}`);
     console.log(`Safe to Play: ${isDirectionalSafe} (${Math.round(successRatio * 100)}%)`);
+
+
+    let counter = 0;
+    let maxCounter = 0;
+    let minCounter = 0;
+    let previousSide = matchLog[0].side;
+
+    console.log(`Starting from side: ${previousSide}`);
+    console.log('--------------------------------------------------');
+
+    for (let i = 1; i < matchLog.length; i++) {
+      const current = matchLog[i];
+      const currentSide = current.side;
+      const actualGap = current.gap;
+      const cappedGap = actualGap > 18 ? 18 : actualGap;
+
+      if (currentSide !== previousSide) {
+        // Switch in side
+        counter += cappedGap;
+        console.log(
+          `[${i}] Switch ${previousSide} ➝ ${currentSide}, gap = ${actualGap} ➝ +${cappedGap}, counter = ${counter}`
+        );
+      } else {
+        // Same side
+        if (actualGap > 18) {
+          counter += 18;
+          console.log(
+            `[${i}] Same ${currentSide}, gap > 18 ➝ +18, counter = ${counter}`
+          );
+        } else {
+          counter += actualGap;
+          console.log(
+            `[${i}] Same ${currentSide}, gap = ${actualGap} ➝ +${actualGap}, then -36`
+          );
+          counter -= 36;
+          console.log(
+            `     ➝ counter after -36 = ${counter}`
+          );
+        }
+      }
+
+      // Track min and max counter value
+      if (counter > maxCounter) maxCounter = counter;
+      if (counter < minCounter) minCounter = counter;
+
+      previousSide = currentSide;
+    }
+
+    console.log('--------------------------------------------------');
+    console.log(`Max loose: ${maxCounter}`);
+    console.log(`Max win: ${minCounter}`);
+    console.log('Beat till end final result:', counter);
+    console.log("-result = very safe, + result (<50) then still can win in between")
   }
 
 
