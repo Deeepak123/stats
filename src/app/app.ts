@@ -260,6 +260,8 @@ export class AppComponent {
     let counter = 0;
     let maxCounter = 0;
     let minCounter = 0;
+    let maxPositiveStreak = 0;
+    let currentStreak = 0;
     let previousSide = matchLog[0].side;
 
     console.log(`Starting from side: ${previousSide}`);
@@ -274,6 +276,7 @@ export class AppComponent {
       if (currentSide !== previousSide) {
         // Switch in side
         counter += cappedGap;
+        currentStreak += cappedGap;
         console.log(
           `[${i}] Switch ${previousSide} ➝ ${currentSide}, gap = ${actualGap} ➝ +${cappedGap}, counter = ${counter}`
         );
@@ -281,11 +284,13 @@ export class AppComponent {
         // Same side
         if (actualGap > 18) {
           counter += 18;
+          currentStreak += 18;
           console.log(
             `[${i}] Same ${currentSide}, gap > 18 ➝ +18, counter = ${counter}`
           );
         } else {
           counter += actualGap;
+          currentStreak += actualGap;
           console.log(
             `[${i}] Same ${currentSide}, gap = ${actualGap} ➝ +${actualGap}, then -36`
           );
@@ -293,6 +298,13 @@ export class AppComponent {
           console.log(
             `     ➝ counter after -36 = ${counter}`
           );
+
+          // Save the streak before reset
+          if (currentStreak > maxPositiveStreak) {
+            maxPositiveStreak = currentStreak;
+          }
+
+          currentStreak = 0;
         }
       }
 
@@ -303,7 +315,13 @@ export class AppComponent {
       previousSide = currentSide;
     }
 
+    // Final check in case the last streak was the longest
+    if (currentStreak > maxPositiveStreak) {
+      maxPositiveStreak = currentStreak;
+    }
+
     console.log('--------------------------------------------------');
+    console.log(`Max loose contious: ${maxPositiveStreak}`);
     console.log(`Max loose: ${maxCounter}`);
     console.log(`Max win: ${minCounter}`);
     console.log('Beat till end final result:', counter);
@@ -517,6 +535,8 @@ export class AppComponent {
     let counter = 0;
     let maxCounter = 0;
     let minCounter = 0;
+    let maxPositiveStreak = 0;
+    let currentStreak = 0;
     let previousSide = matchLog[0].side;
 
     console.log(`Starting from side: ${previousSide}`);
@@ -531,6 +551,7 @@ export class AppComponent {
       if (currentSide !== previousSide) {
         // Switch in side
         counter += cappedGap;
+        currentStreak += cappedGap;
         console.log(
           `[${i}] Switch ${previousSide} ➝ ${currentSide}, gap = ${actualGap} ➝ +${cappedGap}, counter = ${counter}`
         );
@@ -538,11 +559,13 @@ export class AppComponent {
         // Same side
         if (actualGap > 18) {
           counter += 18;
+          currentStreak += 18;
           console.log(
             `[${i}] Same ${currentSide}, gap > 18 ➝ +18, counter = ${counter}`
           );
         } else {
           counter += actualGap;
+          currentStreak += actualGap;
           console.log(
             `[${i}] Same ${currentSide}, gap = ${actualGap} ➝ +${actualGap}, then -36`
           );
@@ -550,6 +573,13 @@ export class AppComponent {
           console.log(
             `     ➝ counter after -36 = ${counter}`
           );
+
+          // Save the streak before reset
+          if (currentStreak > maxPositiveStreak) {
+            maxPositiveStreak = currentStreak;
+          }
+
+          currentStreak = 0;
         }
       }
 
@@ -560,7 +590,13 @@ export class AppComponent {
       previousSide = currentSide;
     }
 
+    // Final check in case the last streak was the longest
+    if (currentStreak > maxPositiveStreak) {
+      maxPositiveStreak = currentStreak;
+    }
+
     console.log('--------------------------------------------------');
+    console.log(`Max loose contious: ${maxPositiveStreak}`);
     console.log(`Max loose: ${maxCounter}`);
     console.log(`Max win: ${minCounter}`);
     console.log('Beat till end final result:', counter);
