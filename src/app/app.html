@@ -1,0 +1,12 @@
+<div class="container">
+  <textarea [(ngModel)]="inputHtml" (input)="extractValues()" rows="10" cols="80"></textarea><br />
+
+  <!-- Button row -->
+  <div style="margin: 10px 0;">
+    <!-- <button (click)="updateEvo()">updateEvo#</button> -->
+    <button (click)="onAltClick()">Alt</button>
+    <button (click)="onLineClick()">Line</button>
+  </div>
+
+  <textarea [(ngModel)]="extractedValues" (input)="updateEvo()" rows="10" cols="100"></textarea>
+</div>
