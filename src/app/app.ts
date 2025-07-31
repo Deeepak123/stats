@@ -15,25 +15,23 @@ export class AppComponent {
   targetClass: string = 'target';
   extractedValues: string = '';
   data: number[] = [
-    16, 18, 11, 2, 10, 8, 1, 36, 4, 8, 9, 10, 35, 7, 36, 7, 25, 25, 34, 21, 11, 19, 28, 28, 8, 7, 29, 13, 6, 32, 4, 15, 2, 22, 34, 32, 35, 24, 21, 9, 34, 32, 14, 34, 12, 2, 33, 29, 16, 36, 25, 30, 18, 17, 1, 30, 34, 8, 26, 8, 11, 18, 36, 10, 1, 30, 20, 13, 8, 23, 25, 36, 29, 24, 31, 28, 14, 21, 13, 7, 31, 16, 6, 32, 28, 24, 12, 12, 34, 6, 29, 35, 21, 32, 4, 17, 7, 12, 22, 15, 29, 34, 29, 2, 8, 3, 33, 31, 30, 25, 4, 6, 23, 17, 0, 11, 18, 31, 30, 4, 5, 20, 7, 11, 18, 22, 28, 21, 2, 12, 14, 5, 28, 33, 27, 17, 21, 1, 26, 22, 21, 9, 28, 16, 21, 17, 4, 18, 3, 14, 2, 36, 12, 11, 4, 9, 8, 34, 25, 7, 31, 23, 5, 9, 11, 21, 8, 13, 30, 32, 36, 24, 4, 3, 6, 34, 5, 29, 29, 6, 10, 29, 33, 11, 9, 23, 31, 34, 6, 15, 16, 1, 27, 5, 29, 9, 27, 5, 18, 2, 22, 12, 33, 13, 10, 19, 9, 0, 32, 10, 32, 20, 2, 11, 32, 13, 34, 31, 12, 6, 32, 19, 9, 14, 22, 30, 24, 22, 21, 14, 34, 4, 18, 27, 8, 7, 35, 27, 17, 13, 23, 11, 16, 8, 28, 17, 29, 34, 26, 14, 4, 8, 3, 32, 1, 20, 1, 8, 35, 31, 4, 33, 22, 23, 14, 15, 15, 0, 29, 3, 29, 36, 36, 16, 21, 0, 3, 36, 0, 14, 4, 2, 20, 18, 15, 4, 19, 8, 20, 10, 11, 5, 36, 27, 9, 21, 15, 18, 16, 2, 30, 6, 2, 22, 35, 19, 35, 34, 35, 29, 8, 27, 3, 17, 0, 11, 19, 16, 1, 1, 31, 16, 12, 14, 32, 23, 32, 4, 2, 7, 33, 28, 33, 21, 22, 30, 1, 10, 16, 13, 32, 10, 19, 19, 1, 20, 3, 1, 7, 29, 12, 2, 10, 15, 29, 35, 29, 2, 1, 31, 23, 2, 13, 26, 15, 4, 4, 12, 32, 1, 36, 12, 31, 11, 1, 35, 33, 15, 11, 8, 4, 18, 29, 30, 9, 9, 35, 18, 1, 10, 16, 0, 26, 20, 6, 14, 24, 21, 29, 7, 16, 25, 28, 31, 10, 11, 24, 23, 1, 34, 15, 16, 8, 26, 10, 28, 33, 24, 3, 5, 28, 36, 26, 16, 29, 24, 22, 21, 20, 17, 3, 32, 23, 1, 33, 28, 20, 5, 3, 27, 19, 13, 2, 27, 26, 11, 15, 7, 9, 2, 4, 34, 26, 33, 9, 8, 13, 18, 31, 16, 9, 13, 30, 3, 11, 31, 32, 7, 27, 10, 11, 1, 11, 25, 10, 10, 34, 7, 20, 23, 26, 33, 13, 28, 17, 2, 1, 16]
+  ];
 
-
-
-
-
-
-  extractValues() {
+  extractValues(option: string) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(this.inputHtml, 'text/html');
 
-    // Get all elements with the required class
-    // const elements = Array.from(
-    //   doc.getElementsByClassName('roulette-history-item__value-text--XeOtB')
-    // );
+    let elements: Element[] = [];
 
-    const elements = Array.from(
-      doc.getElementsByClassName('value--dd5c7')
-    );
+    if (option === 'playT') {
+      elements = Array.from(
+        doc.getElementsByClassName('roulette-history-item__value-text--XeOtB')
+      );
+    } else if (option === 'evo') {
+      elements = Array.from(
+        doc.getElementsByClassName('value--dd5c7')
+      );
+    }
 
     // Extract numbers and parse to integers
     this.data = elements
@@ -46,7 +44,7 @@ export class AppComponent {
     this.extractedValues = this.data.join(',');
   }
 
-  updateEvo() {
+  updateNumber() {
     if (this.extractedValues) {
       this.data = this.extractedValues
         .split(',')

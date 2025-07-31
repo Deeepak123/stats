@@ -3,10 +3,11 @@
 
   <!-- Button row -->
   <div style="margin: 10px 0;">
-    <!-- <button (click)="updateEvo()">updateEvo#</button> -->
+    <button (click)="extractValues('playT')">Option PlayT</button>
+    <button (click)="extractValues('evo')">Option Evo</button>
     <button (click)="onAltClick()">Alt</button>
     <button (click)="onLineClick()">Line</button>
   </div>
 
-  <textarea [(ngModel)]="extractedValues" (input)="updateEvo()" rows="10" cols="100"></textarea>
+  <textarea [(ngModel)]="extractedValues" (input)="updateNumber()" rows="10" cols="100"></textarea>
 </div>
